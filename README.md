@@ -21,13 +21,15 @@ Add the following to `~/Library/Application Support/Claude/claude_desktop_config
       "command": "node",
       "args": [
         "--loader",
-        "/Users/xingbin/Documents/Study/asciiflow/mcp/loader.mjs",
-        "/Users/xingbin/Documents/Study/asciiflow/mcp/dist/mcp/src/index.js"
+        "/path/to/asciiflow/mcp/loader.mjs",
+        "/path/to/asciiflow/mcp/dist/mcp/src/index.js"
       ]
     }
   }
 }
 ```
+
+Replace `/path/to/asciiflow` with the absolute path to your local clone of this repository.
 
 Then restart Claude Desktop.
 
