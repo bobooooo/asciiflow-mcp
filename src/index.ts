@@ -99,5 +99,45 @@ server.tool(
   }
 );
 
+// Discriminated union for batch operations
+const OpSchema = z.discriminatedUnion("op", [
+  z.object({ op: z.literal("canvas_new") }),
+  z.object({ op: z.literal("draw_box"), x: z.number().int(), y: z.number().int(), w: z.number().int().min(3), h: z.number().int().min(3), label: z.string().optional() }),
+  z.object({ op: z.literal("draw_line"), x1: z.number().int(), y1: z.number().int(), x2: z.number().int(), y2: z.number().int() }),
+  z.object({ op: z.literal("draw_arrow"), x1: z.number().int(), y1: z.number().int(), x2: z.number().int(), y2: z.number().int() }),
+  z.object({ op: z.literal("add_text"), x: z.number().int(), y: z.number().int(), text: z.string() }),
+]);
+
+server.tool(
+  "canvas_batch",
+  "批量执行绘图指令并返回最终 ASCII 结果。ops 是指令数组，每条指令包含 op 字段指定操作类型（canvas_new / draw_box / draw_line / draw_arrow / add_text），以及对应参数。执行完所有指令后自动导出画布。",
+  {
+    ops: z.array(OpSchema).describe("绘图指令数组，按顺序执行"),
+  },
+  async ({ ops }) => {
+    for (const op of ops) {
+      switch (op.op) {
+        case "canvas_new":
+          canvas.reset();
+          break;
+        case "draw_box":
+          canvas.drawBox(op.x, op.y, op.w, op.h, op.label);
+          break;
+        case "draw_line":
+          canvas.drawLine(op.x1, op.y1, op.x2, op.y2);
+          break;
+        case "draw_arrow":
+          canvas.drawArrow(op.x1, op.y1, op.x2, op.y2);
+          break;
+        case "add_text":
+          canvas.addText(op.x, op.y, op.text);
+          break;
+      }
+    }
+    const result = canvas.export();
+    return { content: [{ type: "text", text: result || "(empty canvas)" }] };
+  }
+);
+
 const transport = new StdioServerTransport();
 await server.connect(transport);
