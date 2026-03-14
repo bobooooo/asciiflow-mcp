@@ -5,10 +5,11 @@
   "main": "dist/mcp/src/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsx src/index.ts"
+    "dev": "tsx src/index.ts",
+    "test": "node --loader ./loader.mjs ./test-canvas.mjs"
   },
   "imports": {
-    "#asciiflow/*": "../*"
+    "#asciiflow/*": "./dist/*"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
