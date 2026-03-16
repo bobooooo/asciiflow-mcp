@@ -17,7 +17,7 @@
     "build": "node build.mjs",
     "dev": "tsx src/index.ts",
     "test": "node --loader ./loader.mjs ./test-canvas.mjs",
-    "prepare": "npm run build",
+    "prepare": "node prepare.mjs",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
