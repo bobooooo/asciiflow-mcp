@@ -16,7 +16,7 @@ npx -y github:bobooooo/asciiflow-mcp
 npm install -g github:bobooooo/asciiflow-mcp
 ```
 
-Requires Node.js >= 22.
+Requires Node.js >= 20.
 
 ## Claude Desktop Configuration
 
