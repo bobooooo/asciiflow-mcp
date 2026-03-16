@@ -119,14 +119,43 @@ For better performance, use `canvas_batch` to execute all drawing operations in 
 
 ## Development
 
-Clone the repository and build from source:
+### For End Users
+
+This package is distributed with pre-built files. Simply install and use:
+
+```bash
+npm install -g github:bobooooo/asciiflow-mcp
+```
+
+### For Contributors
+
+If you want to modify the source code, you need access to the ASCIIFlow client library:
+
+**Option 1: Work in the main ASCIIFlow repository**
+
+```bash
+git clone https://github.com/bobooooo/asciiflow.git
+cd asciiflow
+git checkout asciiflow-mcp
+cd mcp
+npm install
+npm run build
+```
+
+**Option 2: Link the client directory**
 
 ```bash
 git clone https://github.com/bobooooo/asciiflow-mcp.git
 cd asciiflow-mcp
+# Clone the main repo as a sibling directory
+cd ..
+git clone https://github.com/bobooooo/asciiflow.git
+cd asciiflow-mcp
 npm install
 npm run build
 ```
+
+The build process requires the `../client/` directory from the main ASCIIFlow repository.
 
 Run tests:
 
