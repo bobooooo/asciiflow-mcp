@@ -6,7 +6,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-// ../client/vector.ts
+// client-repo/client/vector.ts
 var Vector = class _Vector {
   constructor(x, y) {
     this.x = x;
@@ -69,7 +69,7 @@ var Vector = class _Vector {
   }
 };
 
-// ../client/common.ts
+// client-repo/client/common.ts
 var Box = class {
   constructor(start, end) {
     this.start = start;
@@ -133,12 +133,12 @@ var CellContext = class {
   }
 };
 
-// ../client/font.ts
+// client-repo/client/font.ts
 var FONT_FAMILY = "'Source Code Pro', monospace";
 var FONT_SIZE = 15;
 var FONT_SPEC = `${FONT_SIZE}px ${FONT_FAMILY}`;
 
-// ../client/constants.ts
+// client-repo/client/constants.ts
 var UNICODE = {
   cornerTopLeft: "\u250C",
   cornerTopRight: "\u2510",
@@ -199,7 +199,7 @@ var Characters = class {
 };
 var ALL_SPECIAL_VALUES = SPECIAL_VALUES.concat(ALT_SPECIAL_VALUES);
 
-// ../client/render_layer.ts
+// client-repo/client/render_layer.ts
 var LegacyRenderLayer = class {
   constructor(baseLayer) {
     this.baseLayer = baseLayer;
@@ -440,7 +440,7 @@ function cellContext(position, layer) {
   );
 }
 
-// ../client/text_utils.ts
+// client-repo/client/text_utils.ts
 function layerToText(layer, box) {
   if (layer.keys().length === 0) {
     return "";
@@ -462,11 +462,10 @@ function layerToText(layer, box) {
     (x) => [...new Array(box.bottomRight().x - box.topLeft().x + 1)].fill(" ")
   );
   layer.entries().filter(([key, value]) => box.contains(key) && !!value).forEach(([key, value]) => {
-    let v = value;
-    if (v.charCodeAt(0) < 32 || v.charCodeAt(0) == 127) {
-      v = " ";
+    if (value.charCodeAt(0) < 32 || value.charCodeAt(0) == 127) {
+      value = " ";
     }
-    lineArrays[key.y - box.topLeft().y][key.x - box.topLeft().x] = v;
+    lineArrays[key.y - box.topLeft().y][key.x - box.topLeft().x] = value;
   });
   return lineArrays.map((lineValues) => lineValues.reduce((acc, curr) => acc + curr, "")).join("\n");
 }
@@ -488,7 +487,7 @@ function textToLayer(value, offset) {
   return layer;
 }
 
-// ../client/layer.ts
+// client-repo/client/layer.ts
 var Layer = class _Layer {
   static serialize(value) {
     return JSON.stringify({
@@ -530,7 +529,7 @@ var Layer = class _Layer {
   }
   get(position) {
     const key = position.toString();
-    return this.map.has(key) ? this.map.get(key) ?? "" : "";
+    return this.map.has(key) ? this.map.get(position.toString()) : null;
   }
   has(position) {
     return this.map.has(position.toString());
@@ -563,7 +562,7 @@ var Layer = class _Layer {
   }
 };
 
-// ../client/draw/utils.ts
+// client-repo/client/draw/utils.ts
 function line(startPosition, endPosition, horizontalFirst) {
   if (startPosition.x === endPosition.x || startPosition.y === endPosition.y) {
     return straightLine(startPosition, endPosition);

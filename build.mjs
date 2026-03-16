@@ -14,12 +14,12 @@ await build({
     js: "#!/usr/bin/env node\n",
   },
   alias: {
-    "#asciiflow/client/layer.js": "../client/layer.ts",
-    "#asciiflow/client/vector.js": "../client/vector.ts",
-    "#asciiflow/client/text_utils.js": "../client/text_utils.ts",
-    "#asciiflow/client/constants.js": "../client/constants.ts",
-    "#asciiflow/client/draw/utils.js": "../client/draw/utils.ts",
-    "#asciiflow/client/common.js": "../client/common.ts",
+    "#asciiflow/client/layer.js": "./client-repo/client/layer.ts",
+    "#asciiflow/client/vector.js": "./client-repo/client/vector.ts",
+    "#asciiflow/client/text_utils.js": "./client-repo/client/text_utils.ts",
+    "#asciiflow/client/constants.js": "./client-repo/client/constants.ts",
+    "#asciiflow/client/draw/utils.js": "./client-repo/client/draw/utils.ts",
+    "#asciiflow/client/common.js": "./client-repo/client/common.ts",
   },
 });
 

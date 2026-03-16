@@ -11,7 +11,7 @@
     "dist/index.js",
     "src/",
     "build.mjs",
-    "../client/"
+    "client-repo/client/"
   ],
   "scripts": {
     "build": "node build.mjs",

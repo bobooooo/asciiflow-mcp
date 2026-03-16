@@ -9,8 +9,8 @@ Requires Node.js >= 20.
 **Recommended: Global installation from source**
 
 ```bash
-# Clone the repository
-git clone https://github.com/bobooooo/asciiflow-mcp.git
+# Clone the repository with submodules
+git clone --recurse-submodules https://github.com/bobooooo/asciiflow-mcp.git
 cd asciiflow-mcp
 
 # Install dependencies
@@ -20,13 +20,19 @@ npm install
 npm install -g .
 ```
 
+If you already cloned without `--recurse-submodules`, initialize the submodule:
+
+```bash
+git submodule update --init --recursive
+```
+
 **Alternative: Direct use with npx (may be slower)**
 
 ```bash
 npx -y github:bobooooo/asciiflow-mcp
 ```
 
-> **Note**: Due to npm's handling of git dependencies, direct installation with `npm install -g github:...` may fail. The recommended method above clones the repository first to avoid this issue.
+> **Note**: This package uses a git submodule for the ASCIIFlow client library. When cloning, use `--recurse-submodules` to automatically fetch the required dependencies.
 
 ## Claude Desktop Configuration
 
@@ -129,43 +135,26 @@ For better performance, use `canvas_batch` to execute all drawing operations in 
 
 ## Development
 
-### For End Users
-
-This package is distributed with pre-built files. Simply install and use:
-
-```bash
-npm install -g github:bobooooo/asciiflow-mcp
-```
-
 ### For Contributors
 
-If you want to modify the source code, you need access to the ASCIIFlow client library:
-
-**Option 1: Work in the main ASCIIFlow repository**
+To modify the source code and rebuild:
 
 ```bash
-git clone https://github.com/bobooooo/asciiflow.git
-cd asciiflow
-git checkout asciiflow-mcp
-cd mcp
+# Clone with submodules
+git clone --recurse-submodules https://github.com/bobooooo/asciiflow-mcp.git
+cd asciiflow-mcp
+
+# Install dependencies
 npm install
+
+# Build
 npm run build
+
+# Test locally
+npm link
 ```
 
-**Option 2: Link the client directory**
-
-```bash
-git clone https://github.com/bobooooo/asciiflow-mcp.git
-cd asciiflow-mcp
-# Clone the main repo as a sibling directory
-cd ..
-git clone https://github.com/bobooooo/asciiflow.git
-cd asciiflow-mcp
-npm install
-npm run build
-```
-
-The build process requires the `../client/` directory from the main ASCIIFlow repository.
+The build process uses the ASCIIFlow client library from the `client-repo` submodule.
 
 Run tests:
 

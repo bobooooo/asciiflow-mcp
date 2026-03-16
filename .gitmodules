@@ -1,0 +1,4 @@
+[submodule "client-repo"]
+	path = client-repo
+	url = https://github.com/bobooooo/asciiflow.git
+	branch = main
