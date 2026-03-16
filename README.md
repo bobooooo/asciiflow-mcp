@@ -4,28 +4,44 @@ An MCP (Model Context Protocol) server that exposes ASCIIFlow's drawing primitiv
 
 ## Installation
 
+**Method 1: Direct use with npx (Recommended, no installation needed)**
+
 ```bash
-npm install -g asciiflow-mcp
+npx -y github:bobooooo/asciiflow-mcp
 ```
 
-Or use directly with `npx` (no installation needed):
+**Method 2: Global installation**
 
 ```bash
-npx asciiflow-mcp
+npm install -g github:bobooooo/asciiflow-mcp
 ```
 
 Requires Node.js >= 22.
 
 ## Claude Desktop Configuration
 
-Add the following to `~/Library/Application Support/Claude/claude_desktop_config.json`:
+**For npx (recommended):**
+
+Add the following to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
 ```json
 {
   "mcpServers": {
     "asciiflow": {
       "command": "npx",
-      "args": ["-y", "asciiflow-mcp"]
+      "args": ["-y", "github:bobooooo/asciiflow-mcp"]
+    }
+  }
+}
+```
+
+**For global installation:**
+
+```json
+{
+  "mcpServers": {
+    "asciiflow": {
+      "command": "asciiflow-mcp"
     }
   }
 }
@@ -106,8 +122,8 @@ For better performance, use `canvas_batch` to execute all drawing operations in 
 Clone the repository and build from source:
 
 ```bash
-git clone https://github.com/bobooooo/asciiflow.git
-cd asciiflow/mcp
+git clone https://github.com/bobooooo/asciiflow-mcp.git
+cd asciiflow-mcp
 npm install
 npm run build
 ```
@@ -117,6 +133,11 @@ Run tests:
 ```bash
 npm test
 ```
+
+## Repository
+
+- Main repository: https://github.com/bobooooo/asciiflow
+- MCP package: https://github.com/bobooooo/asciiflow-mcp
 
 ## License
 
