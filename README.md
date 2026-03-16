@@ -4,23 +4,33 @@ An MCP (Model Context Protocol) server that exposes ASCIIFlow's drawing primitiv
 
 ## Installation
 
-**Method 1: Direct use with npx (Recommended, no installation needed)**
+Requires Node.js >= 20.
+
+**Recommended: Global installation from source**
+
+```bash
+# Clone the repository
+git clone https://github.com/bobooooo/asciiflow-mcp.git
+cd asciiflow-mcp
+
+# Install dependencies
+npm install
+
+# Install globally
+npm install -g .
+```
+
+**Alternative: Direct use with npx (may be slower)**
 
 ```bash
 npx -y github:bobooooo/asciiflow-mcp
 ```
 
-**Method 2: Global installation**
-
-```bash
-npm install -g github:bobooooo/asciiflow-mcp
-```
-
-Requires Node.js >= 20.
+> **Note**: Due to npm's handling of git dependencies, direct installation with `npm install -g github:...` may fail. The recommended method above clones the repository first to avoid this issue.
 
 ## Claude Desktop Configuration
 
-**For npx (recommended):**
+**For global installation (recommended):**
 
 Add the following to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
@@ -28,20 +38,20 @@ Add the following to `~/Library/Application Support/Claude/claude_desktop_config
 {
   "mcpServers": {
     "asciiflow": {
-      "command": "npx",
-      "args": ["-y", "github:bobooooo/asciiflow-mcp"]
+      "command": "asciiflow-mcp"
     }
   }
 }
 ```
 
-**For global installation:**
+**For npx:**
 
 ```json
 {
   "mcpServers": {
     "asciiflow": {
-      "command": "asciiflow-mcp"
+      "command": "npx",
+      "args": ["-y", "github:bobooooo/asciiflow-mcp"]
     }
   }
 }
