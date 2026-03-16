@@ -1,24 +1,44 @@
 {
   "name": "asciiflow-mcp",
   "version": "0.1.0",
+  "description": "MCP server for generating ASCII wireframes from natural language descriptions",
   "type": "module",
-  "main": "dist/mcp/src/index.js",
-  "scripts": {
-    "build": "tsc",
-    "dev": "tsx src/index.ts",
-    "test": "node --loader ./loader.mjs ./test-canvas.mjs"
+  "main": "dist/index.js",
+  "bin": {
+    "asciiflow-mcp": "dist/index.js"
   },
-  "imports": {
-    "#asciiflow/*": "./dist/*"
+  "files": [
+    "dist/index.js"
+  ],
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "tsx src/index.ts",
+    "test": "node --loader ./loader.mjs ./test-canvas.mjs",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "ascii",
+    "wireframe",
+    "diagram",
+    "asciiflow"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bobooooo/asciiflow.git",
+    "directory": "mcp"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "zod": "^3.22.0"
   },
   "devDependencies": {
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.20.2",
     "tsx": "^4.7.0",
-    "typescript": "^5.8.0",
-    "@types/node": "^22.0.0"
+    "typescript": "^5.8.0"
   },
   "engines": {
     "node": ">=22.0.0"

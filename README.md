@@ -2,10 +2,16 @@
 
 An MCP (Model Context Protocol) server that exposes ASCIIFlow's drawing primitives as tools, enabling AI assistants to generate ASCII wireframes directly from PRDs or natural language descriptions.
 
-## Setup
+## Installation
 
 ```bash
-cd mcp && npm install && npm run build
+npm install -g asciiflow-mcp
+```
+
+Or use directly with `npx` (no installation needed):
+
+```bash
+npx asciiflow-mcp
 ```
 
 Requires Node.js >= 22.
@@ -18,22 +24,14 @@ Add the following to `~/Library/Application Support/Claude/claude_desktop_config
 {
   "mcpServers": {
     "asciiflow": {
-      "command": "node",
-      "args": [
-        "--loader",
-        "/path/to/asciiflow/mcp/loader.mjs",
-        "/path/to/asciiflow/mcp/dist/mcp/src/index.js"
-      ]
+      "command": "npx",
+      "args": ["-y", "asciiflow-mcp"]
     }
   }
 }
 ```
 
-Replace `/path/to/asciiflow` with the absolute path to your local clone of this repository.
-
 Then restart Claude Desktop.
-
-The `--loader` flag is required to resolve `#asciiflow/*` package imports at runtime from the compiled `dist/` output.
 
 ## Available Tools
 
@@ -46,48 +44,80 @@ The `--loader` flag is required to resolve `#asciiflow/*` package imports at run
 | `add_text` | `x`, `y`, `text` | 在指定坐标添加文字，支持 `\n` 换行 |
 | `canvas_export` | — | 导出当前画布为 ASCII 文本 |
 | `canvas_preview` | — | 预览当前画布状态（与 `canvas_export` 相同，用于中间检查） |
+| `canvas_batch` | `ops` | 批量执行绘图指令并返回最终结果。`ops` 是指令数组，每条指令包含 `op` 字段（`canvas_new` / `draw_box` / `draw_line` / `draw_arrow` / `add_text`）及对应参数 |
 
 All coordinates are in character-grid units (columns / rows).
 
 ## Example Usage
 
-Prompt Claude with something like:
+### Single Tool Calls
+
+Prompt Claude with:
 
 > 帮我根据这个 PRD 生成登录页面的 ASCII 线框图：用户需要输入邮箱和密码，点击登录按钮后跳转到主页，底部有"忘记密码"和"注册"链接。
 
-Claude will call the MCP tools and produce output like:
+Claude will call the MCP tools sequentially and produce output like:
 
 ```
-+----------------------------------+
-|            登录                  |
-+----------------------------------+
-|                                  |
-|  邮箱:                           |
-|  +----------------------------+  |
-|  |                            |  |
-|  +----------------------------+  |
-|                                  |
-|  密码:                           |
-|  +----------------------------+  |
-|  |                            |  |
-|  +----------------------------+  |
-|                                  |
-|       +----------------+         |
-|       |    登 录       |         |
-|       +----------------+         |
-|                                  |
-|   忘记密码?        注册账号      |
-+----------------------------------+
+┌────────────────登录────────────────┐
+│                                  │
+│                                  │
+│ 邮箱:                              │
+│ ┌──────────────────────────────┐ │
+│ │                              │ │
+│ └──────────────────────────────┘ │
+│                                  │
+│ 密码:                              │
+│ ┌──────────────────────────────┐ │
+│ │                              │ │
+│ └──────────────────────────────┘ │
+│                                  │
+│         ┌─────登 录──────┐         │
+│         │              │         │
+│         └──────────────┘         │
+│                                  │
+│  忘记密码?              注册账号   │
+│                                  │
+└──────────────────────────────────┘
 ```
 
-## Running Tests
+### Batch Tool Call
+
+For better performance, use `canvas_batch` to execute all drawing operations in a single call:
+
+```json
+{
+  "ops": [
+    { "op": "canvas_new" },
+    { "op": "draw_box", "x": 0, "y": 0, "w": 36, "h": 20, "label": "登录" },
+    { "op": "add_text", "x": 2, "y": 3, "text": "邮箱:" },
+    { "op": "draw_box", "x": 2, "y": 4, "w": 32, "h": 3 },
+    { "op": "add_text", "x": 2, "y": 8, "text": "密码:" },
+    { "op": "draw_box", "x": 2, "y": 9, "w": 32, "h": 3 },
+    { "op": "draw_box", "x": 10, "y": 13, "w": 16, "h": 3, "label": "登 录" },
+    { "op": "add_text", "x": 3, "y": 17, "text": "忘记密码?" },
+    { "op": "add_text", "x": 22, "y": 17, "text": "注册账号" }
+  ]
+}
+```
+
+## Development
+
+Clone the repository and build from source:
 
 ```bash
-cd /path/to/asciiflow && node --loader ./mcp/loader.mjs ./mcp/test-canvas.mjs
+git clone https://github.com/bobooooo/asciiflow.git
+cd asciiflow/mcp
+npm install
+npm run build
 ```
 
-Or from within the `mcp/` directory:
+Run tests:
 
 ```bash
 npm test
 ```
+
+## License
+
+MIT
